@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 type Props = {
-  children: string | JSX.Element | JSX.Element[] | React.ReactNode;
+  children: ReactNode;
 };
 
 function DefaultLayout({ children }: Props): JSX.Element {

@@ -1,5 +1,6 @@
 import routesPath from '../configs/routes';
-import { Home } from '../pages';
+import { Home, SignIn, SignUp } from '../pages';
+import Logged from '../pages/Logged';
 
 type RouteItem = {
   path: string;
@@ -9,6 +10,11 @@ type RouteItem = {
   children?: Array<RouteItem>;
 };
 
-const routes: Array<RouteItem> = [{ path: routesPath.home, component: Home }];
+const routes: Array<RouteItem> = [
+  { path: routesPath.home, component: Home },
+  { path: routesPath.signin, component: SignIn },
+  { path: routesPath.signup, component: SignUp },
+  { path: routesPath.logged, component: Logged },
+];
 
 export default routes;
