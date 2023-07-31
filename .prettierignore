@@ -1,8 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Những file sẽ không format theo Prettier
 
 # dependencies
-/.vscode
 /node_modules
+/.vscode
 /.pnp
 .pnp.js
 

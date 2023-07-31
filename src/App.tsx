@@ -1,25 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { routes } from './routes';
+import { Fragment } from 'react';
+import { DefaultLayout, PrivateLayout } from './layouts';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        {routes.map((route, index) => {
+          let Layout;
+          const Page = route.component;
+          const MainPrivateLayout = route.privateRoute ? PrivateLayout : Fragment;
+
+          if (route.layout === null) {
+            Layout = Fragment;
+          } else if (route.layout === undefined) {
+            Layout = DefaultLayout;
+          } else {
+            Layout = route.layout;
+          }
+
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <MainPrivateLayout>
+                  <Layout>
+                    <Page />
+                  </Layout>
+                </MainPrivateLayout>
+              }
+            >
+              {Array.isArray(route.children) &&
+                route.children.map((childRoute, index) => {
+                  const ChildPrivateLayout = childRoute.privateRoute ? PrivateLayout : Fragment;
+                  const props = childRoute.privateRoute ? { excludeFooter: true, excludeHeader: true } : {};
+                  const SubPage = childRoute.component;
+                  return (
+                    <Route
+                      key={index}
+                      path={childRoute.path}
+                      element={
+                        <ChildPrivateLayout {...props}>
+                          <SubPage />
+                        </ChildPrivateLayout>
+                      }
+                    />
+                  );
+                })}
+            </Route>
+          );
+        })}
+      </Routes>
+    </Router>
   );
 }
 
